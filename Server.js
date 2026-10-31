@@ -12,6 +12,7 @@ app.use(cors({ origin: process.env.CLIENT_ORIGIN, credentials: true }));
 app.use(express.json({ limit: "15mb" }));
 
 // Routes
+app.get("/", (_, res) => res.json({ message: "Backend is working properly." }));
 app.use("/api/auth", authRoutes);
 app.use("/api/documents", documentRoutes);
 
