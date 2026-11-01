@@ -126,6 +126,20 @@ export const listDocuments = async (req, res) => {
   return res.json({ documents: documents.map(documentResponse) });
 };
 
+export const deleteDocument = async (req, res) => {
+  if (!mongoose.isValidObjectId(req.params.id)) {
+    return res.status(400).json({ message: "Invalid document ID." });
+  }
+
+  const document = await Document.findOneAndDelete({
+    _id: req.params.id,
+    owner: req.user.id,
+  });
+  if (!document) return res.status(404).json({ message: "Document not found." });
+
+  return res.json({ message: "Document deleted successfully." });
+};
+
 export const downloadDocumentFile = async (req, res) => {
   if (!mongoose.isValidObjectId(req.params.id)) {
     return res.status(400).json({ message: "Invalid document ID." });
